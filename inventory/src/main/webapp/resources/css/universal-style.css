@@ -1,0 +1,143 @@
+.margin-bottom-inputs{
+	margin-bottom: 10px;
+}
+.margin-bottom-inputs{
+	margin-top: 10px;
+}
+.login-container{
+	margin-top:10%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.login-container label {
+	width:100px;
+	margin-left:10px;
+}
+
+.login-container input,button,label {
+	font-size: 20px !important;
+}
+.login-container .logo{
+	height:200px;
+	width:200px;
+	background-position:center;
+	background-image: url("../images/logo1.png");
+	background-repeat: no-repeat;
+	background-size:contain;
+}
+
+.header-container .logo{
+	height:200px;
+	width:100%;
+	background-position:center;
+	background-image: url("../images/logo1.png");
+	background-repeat: no-repeat;
+	background-size:contain;
+}
+
+.bill-logo{
+	height:150px;
+	width:150px;
+	//background-position:center;
+	background-image: url("../images/logo1.jpg");
+	background-repeat: no-repeat;
+	background-size:contain;
+}
+
+.home-header-margin{
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+/******New Poppup form*******/
+/* Outer */
+.popup {
+	width:100%;
+	height:100%;
+	display:none;
+	position:fixed;
+	top:0px;
+	left:0px;
+	background:rgba(0,0,0,0.75);
+}
+/* Inner */
+.popup-inner {
+	max-width:500px;
+	height:200px;
+	width:50%;
+	padding-top:10px;
+	padding-bottom:20px;
+	padding-left:20px;
+	padding-right:20px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	-webkit-transform:translate(-50%, -50%);
+	transform:translate(-50%, -50%);
+	box-shadow:0px 2px 6px rgba(0,0,0,1);
+	border-radius:3px;
+	background:#fff;
+}
+/* Close Button */
+.popup-close {
+	width:30px;
+	height:30px;
+	padding-top:4px;
+	display:inline-block;
+	position:absolute;
+	top:0px;
+	right:0px;
+	transition:ease 0.25s all;
+	-webkit-transform:translate(50%, -50%);
+	transform:translate(50%, -50%);
+	border-radius:1000px;
+	background:rgba(0,0,0,0.8);
+	font-family:Arial, Sans-Serif;
+	font-size:20px;
+	text-align:center;
+	line-height:100%;
+	color:#fff;
+}
+.popup-close:hover {
+	-webkit-transform:translate(50%, -50%) rotate(180deg);
+	transform:translate(50%, -50%) rotate(180deg);
+	background:rgba(0,0,0,1);
+	text-decoration:none;
+}
+/******New Poppup form end*******/
+
+
+.modal{
+        position: fixed;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+    .center
+    {
+        z-index: 1000;
+        margin: 300px auto;
+        padding: 10px;
+        width: 130px;
+        background-color: White;
+        border-radius: 10px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+    .center img
+    {
+        height: 128px;
+        width: 128px;
+    }
+    
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 5px 5px; white-space: nowrap; overflow: hidden;cursor: pointer;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #3399FF; }
