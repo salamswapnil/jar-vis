@@ -12,4 +12,7 @@ public interface SalesDAO {
 	public List<Map<String,Object>> getAllCustomers();
 	public List<CustomerSales> getPurchasedProductsByCustomer(String custId);
 	public List<CustomerSales> getPurchasedProductsByCustomerByDate(String custId,String pdate);
+	public List<CustomerSales> getSalesReportBetweenDates(String startdate,String enddate, String[] products);
+	public List<CustomerSales> getDailySalesReport(String startdate,String[] products);
+	
 }

@@ -53,6 +53,12 @@
 			      </li>
 			      <li><a href="${pageContext.request.contextPath}/sales">Sales</a></li>
 			      <li><a href='${pageContext.request.contextPath}/bills'>Bills</a></li>
+			      <li><a href='#'>Reports</a>
+			      		<ul>
+			      			<li><a href="${pageContext.request.contextPath}/salebetweendates">Monthly</a></li>
+			      			<li><a href="${pageContext.request.contextPath}/dailySales">Daily</a></li>
+			      		</ul>
+			      </li>
 			   </ul>
 			</div>
 		</div>

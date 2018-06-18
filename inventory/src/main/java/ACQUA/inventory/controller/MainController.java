@@ -413,4 +413,23 @@ public class MainController {
 		String responseJson=gson.toJson(custProducts);
 		return responseJson;
 	}
+	
+	@RequestMapping(value="/monthlyReport")
+	//public @ResponseBody String getMonthlyReport(@RequestParam String startdate,@RequestParam String enddate,@RequestParam String[] products){
+	public @ResponseBody String getMonthlyReport(@RequestBody TempModel obj){
+		Gson gson = new Gson();
+		List<CustomerSales> custProducts =salesDAO.getSalesReportBetweenDates(obj.getStartDate(), obj.getEndDate(), obj.getProducts());
+		String responseString=gson.toJson(custProducts);
+		//String responseString=gson.toJson(salesDAO.getSalesReportBetweenDates(startdate,enddate,products));
+		return responseString;
+	}
+	
+	@RequestMapping(value="/dailyReport")
+	public @ResponseBody String getDailyReport(@RequestBody TempModel obj){
+		Gson gson = new Gson();
+		List<CustomerSales> custProducts =salesDAO.getDailySalesReport(obj.getStartDate(),obj.getProducts());
+		String responseString=gson.toJson(custProducts);
+		return responseString;
+	}
+	
 }

@@ -91,4 +91,15 @@ public class HomeController {
 		return view;
 	}
 	
+	@RequestMapping(value="/salebetweendates")
+	public ModelAndView reportbetweendates(HttpServletResponse response) throws IOException{
+		ModelAndView view = new ModelAndView("salebetweendates");
+		return view;
+	}
+	
+	@RequestMapping(value="/dailySales")
+	public ModelAndView dailySales(HttpServletResponse response) throws IOException{
+		ModelAndView view = new ModelAndView("dailysales");
+		return view;
+	}
 }

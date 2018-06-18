@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap-table.css" />
 <title>ACQUA</title>
 <style type="text/css">
 	.rightborder{
@@ -19,9 +20,9 @@
 		<!-- <div class="row text-center"><div class="col-md-5 text-center"><h3>Current Inventory Status</h3></div></div> -->
 		<div class="row">
 			<div class="col-md-6 margin-bottom-inputs">
-				<h3 class="">Fish Stock Status</h3>
-				<table class="table table-hover">
-					<thead class="">
+				<h4 class="">Fish Stock Status</h4>
+				<table id="fishTable" data-toggle="table" data-query-params="queryParams" data-pagination="true" data-search="true" data-height="400">
+					<thead>
 						<tr>
 							<th class="">Species</th>
 							<!-- <th class="">Batch</th> -->
@@ -38,9 +39,9 @@
 				</table>
 			</div>
 			<div class="col-md-6 margin-bottom-inputs">
-				<h3 class="">Plant Stock Status</h3>
-				<table class="table table-hover">
-					<thead class="">
+				<h4 class="">Plant Stock Status</h4>
+				<table id="plantTable" data-toggle="table" data-query-params="queryParams" data-pagination="true" data-search="true" data-height="400">
+					<thead>
 						<tr>
 							<th class="">Plant Name</th>
 							<!-- <th class="">Batch</th> -->
@@ -60,9 +61,9 @@
 		
 		<div class="row">
 			<div class="col-md-6 margin-bottom-inputs">
-				<h3>Raw Material Stock Status</h3>
-				<table class="table table-hover">
-					<thead class="">
+				<h4>Raw Material Stock Status</h4>
+				<table id="rmTable" data-toggle="table" data-query-params="queryParams" data-pagination="true" data-search="true" data-height="400">
+					<thead>
 						<tr>
 							<th class="">Item Name</th>
 							<th class="">In Stock</th>
@@ -77,11 +78,11 @@
 				</table>
 			</div>
 			<div class="col-md-6 margin-bottom-inputs">
-				<h3>Birds Stock Status</h3>
-				<table class="table table-hover">
-					<thead class="">
+				<h4>Birds Stock Status</h4>
+				<table id="birdsTable" data-toggle="table" data-query-params="queryParams" data-pagination="true" data-search="true" data-height="400">
+					<thead>
 						<tr>
-							<th class="">Item Name</th>
+							<th class="">Bird Name</th>
 							<th class="">In Stock</th>
 						</tr>
 					</thead>
@@ -95,5 +96,17 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-table.js"></script>
+	<script type="text/javascript">
+		function queryParams() {
+		    return {
+		        type: 'owner',
+		        sort: 'updated',
+		        direction: 'desc',
+		        per_page: 100,
+		        page: 1
+		    };
+		}
+	</script>
 </body>
 </html>

@@ -3,7 +3,6 @@ package ACQUA.inventory.daoimpl;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +45,33 @@ public class SalesDAOImpl implements SalesDAO {
 	private final String GET_ALL_CUSTOMERS="SELECT * FROM Customer";
 	private final String GET_SALES_BY_CUST_ID="SELECT RecordID,Product_Purchased,Rate,Quantity,DATE_FORMAT(Sale_Date,'%d/%m/%Y') as Sale_Date FROM Sales WHERE cust_id=?";
 	private final String GET_SALES_BY_CUST_ID_DATE="SELECT RecordID,Product_Purchased,Rate,Quantity,DATE_FORMAT(Sale_Date,'%d/%m/%Y') as Sale_Date FROM Sales WHERE cust_id=? AND DATE_FORMAT(Sale_Date,'%d/%m/%Y')=?";
+	
+	private final String GET_FISH_SALES_REPORT_BETWEEN_DATES="SELECT fm.Category,s.Rate,s.Quantity,DATE_FORMAT(s.SALE_DATE,'%d-%m-%Y') AS Sale_Date FROM "
+			+ "Fish_Master fm, Sales s WHERE fm.RecordID=s.Product_Purchased AND (s.Sale_Date >= ? AND s.Sale_Date <= ?)";
+	
+	private final String GET_BIRD_SALES_REPORT_BETWEEN_DATES="SELECT bm.Bird_Name,s.Rate,s.Quantity,DATE_FORMAT(s.SALE_DATE,'%d-%m-%Y') AS Sale_Date FROM "
+			+ "Bird_Master bm, Sales s WHERE bm.RecordID=s.Product_Purchased AND (s.Sale_Date >= ? AND s.Sale_Date <= ?)";
+	
+	private final String GET_PLANT_SALES_REPORT_BETWEEN_DATES="SELECT pm.Plant_Name,s.Rate,s.Quantity,DATE_FORMAT(s.SALE_DATE,'%d-%m-%Y') AS Sale_Date FROM "
+			+ "Plant_Master pm, Sales s WHERE pm.RecordID=s.Product_Purchased AND (s.Sale_Date >= ? AND s.Sale_Date <= ?)";
+	
+	private final String GET_RM_SALES_REPORT_BETWEEN_DATES="SELECT rmm.Raw_Material_Name,s.Rate,s.Quantity,DATE_FORMAT(s.SALE_DATE,'%d-%m-%Y') AS Sale_Date FROM "
+			+ "Raw_Material_Master rmm, Sales s WHERE rmm.RecordID=s.Product_Purchased AND (s.Sale_Date >= ? AND s.Sale_Date <= ?)";
+	
+	private final String GET_FISH_DAILY_SALES_REPORT="SELECT fm.Category,s.Rate,s.Quantity,DATE_FORMAT(s.SALE_DATE,'%d-%m-%Y') AS Sale_Date FROM "
+			+ "Fish_Master fm, Sales s WHERE fm.RecordID=s.Product_Purchased AND s.Sale_Date = ? ";
+	
+	private final String GET_BIRD_DAILY_SALES_REPORT="SELECT bm.Bird_Name,s.Rate,s.Quantity,DATE_FORMAT(s.SALE_DATE,'%d-%m-%Y') AS Sale_Date FROM "
+			+ "Bird_Master bm, Sales s WHERE bm.RecordID=s.Product_Purchased AND s.Sale_Date = ?";
+	
+	private final String GET_PLANT_DAILY_SALES_REPORT="SELECT pm.Plant_Name,s.Rate,s.Quantity,DATE_FORMAT(s.SALE_DATE,'%d-%m-%Y') AS Sale_Date FROM "
+			+ "Plant_Master pm, Sales s WHERE pm.RecordID=s.Product_Purchased AND s.Sale_Date = ?";
+	
+	private final String GET_RM_DAILY_SALES_REPORT="SELECT rmm.Raw_Material_Name,s.Rate,s.Quantity,DATE_FORMAT(s.SALE_DATE,'%d-%m-%Y') AS Sale_Date FROM "
+			+ "Raw_Material_Master rmm, Sales s WHERE rmm.RecordID=s.Product_Purchased AND s.Sale_Date = ?";
+	
+	
+	
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
@@ -254,5 +280,181 @@ public class SalesDAOImpl implements SalesDAO {
 		return customerProducts;
 	}
 
-	
+	@Override
+	public List<CustomerSales> getSalesReportBetweenDates(String startdate, String enddate,String[] products) {
+		//List<CustomerSales> list = new ArrayList<CustomerSales>();
+		List<Map<String,Object>> pList = new ArrayList<>();
+		List<CustomerSales> customerProducts = new ArrayList<>();
+		CustomerSales csObject;
+		jdbcTemplate = new JdbcTemplate(datasource);
+		int[] types = new int[] {Types.VARCHAR,Types.VARCHAR};
+		String[] params = new String[]{startdate,enddate};
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		
+		
+		for(String p:products){
+			if(p.equalsIgnoreCase("Fish")){
+				pList = jdbcTemplate.queryForList(GET_FISH_SALES_REPORT_BETWEEN_DATES,params,types);
+				for(Map<String,Object> row :pList){
+					csObject = new CustomerSales();
+					csObject.setProductType("Fish");
+					csObject.setProductName(row.get("Category").toString());
+					csObject.setRate(Double.valueOf(row.get("Rate").toString()));
+					csObject.setQuantity(Integer.valueOf(row.get("Quantity").toString()));
+					csObject.setStrSaleDate(row.get("Sale_Date").toString());
+					try{
+						csObject.setSaleDate(format.parse(row.get("Sale_Date").toString()));
+					}
+					catch(Exception e){
+						System.out.println("Exception occured: "+e.getMessage());
+					}
+					customerProducts.add(csObject);
+				}
+				pList.clear();
+			}
+			else if(p.equalsIgnoreCase("Bird")){
+				pList = jdbcTemplate.queryForList(GET_BIRD_SALES_REPORT_BETWEEN_DATES,params,types);
+				for(Map<String,Object> row :pList){
+					csObject = new CustomerSales();
+					csObject.setProductType("Bird");
+					csObject.setProductName(row.get("Bird_Name").toString());
+					csObject.setRate(Double.valueOf(row.get("Rate").toString()));
+					csObject.setQuantity(Integer.valueOf(row.get("Quantity").toString()));
+					csObject.setStrSaleDate(row.get("Sale_Date").toString());
+					try{
+						csObject.setSaleDate(format.parse(row.get("Sale_Date").toString()));
+					}
+					catch(Exception e){
+						System.out.println("Exception occured: "+e.getMessage());
+					}
+					customerProducts.add(csObject);
+				}
+				pList.clear();
+			}
+			else if(p.equalsIgnoreCase("Plant")){
+				pList = jdbcTemplate.queryForList(GET_PLANT_SALES_REPORT_BETWEEN_DATES,params,types);
+				for(Map<String,Object> row :pList){
+					csObject = new CustomerSales();
+					csObject.setProductType("Plant");
+					csObject.setProductName(row.get("Plant_Name").toString());
+					csObject.setRate(Double.valueOf(row.get("Rate").toString()));
+					csObject.setQuantity(Integer.valueOf(row.get("Quantity").toString()));
+					csObject.setStrSaleDate(row.get("Sale_Date").toString());
+					try{
+						csObject.setSaleDate(format.parse(row.get("Sale_Date").toString()));
+					}
+					catch(Exception e){
+						System.out.println("Exception occured: "+e.getMessage());
+					}
+					customerProducts.add(csObject);
+				}
+				pList.clear();
+			}
+			else if(p.equalsIgnoreCase("Raw Material")){
+				pList = jdbcTemplate.queryForList(GET_RM_SALES_REPORT_BETWEEN_DATES,params,types);
+				for(Map<String,Object> row :pList){
+					csObject = new CustomerSales();
+					csObject.setProductType("Raw_Material");
+					csObject.setProductName(row.get("Raw_Material_Name").toString());
+					csObject.setRate(Double.valueOf(row.get("Rate").toString()));
+					csObject.setQuantity(Integer.valueOf(row.get("Quantity").toString()));
+					csObject.setStrSaleDate(row.get("Sale_Date").toString());
+					try{
+						csObject.setSaleDate(format.parse(row.get("Sale_Date").toString()));
+					}
+					catch(Exception e){
+						System.out.println("Exception occured: "+e.getMessage());
+					}
+					customerProducts.add(csObject);
+				}
+				pList.clear();
+			}
+		}
+		return customerProducts;
+	}
+
+	@Override
+	public List<CustomerSales> getDailySalesReport(String startdate, String[] products) {
+		// List<CustomerSales> list = new ArrayList<CustomerSales>();
+		List<Map<String, Object>> pList = new ArrayList<>();
+		List<CustomerSales> customerProducts = new ArrayList<>();
+		CustomerSales csObject;
+		jdbcTemplate = new JdbcTemplate(datasource);
+		int[] types = new int[] { Types.VARCHAR };
+		String[] params = new String[] { startdate };
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+		for (String p : products) {
+			if (p.equalsIgnoreCase("Fish")) {
+				pList = jdbcTemplate.queryForList(GET_FISH_DAILY_SALES_REPORT, params, types);
+				for (Map<String, Object> row : pList) {
+					csObject = new CustomerSales();
+					csObject.setProductType("Fish");
+					csObject.setProductName(row.get("Category").toString());
+					csObject.setRate(Double.valueOf(row.get("Rate").toString()));
+					csObject.setQuantity(Integer.valueOf(row.get("Quantity").toString()));
+					csObject.setStrSaleDate(row.get("Sale_Date").toString());
+					try {
+						csObject.setSaleDate(format.parse(row.get("Sale_Date").toString()));
+					} catch (Exception e) {
+						System.out.println("Exception occured: " + e.getMessage());
+					}
+					customerProducts.add(csObject);
+				}
+				pList.clear();
+			} else if (p.equalsIgnoreCase("Bird")) {
+				pList = jdbcTemplate.queryForList(GET_BIRD_DAILY_SALES_REPORT, params, types);
+				for (Map<String, Object> row : pList) {
+					csObject = new CustomerSales();
+					csObject.setProductType("Bird");
+					csObject.setProductName(row.get("Bird_Name").toString());
+					csObject.setRate(Double.valueOf(row.get("Rate").toString()));
+					csObject.setQuantity(Integer.valueOf(row.get("Quantity").toString()));
+					csObject.setStrSaleDate(row.get("Sale_Date").toString());
+					try {
+						csObject.setSaleDate(format.parse(row.get("Sale_Date").toString()));
+					} catch (Exception e) {
+						System.out.println("Exception occured: " + e.getMessage());
+					}
+					customerProducts.add(csObject);
+				}
+				pList.clear();
+			} else if (p.equalsIgnoreCase("Plant")) {
+				pList = jdbcTemplate.queryForList(GET_PLANT_DAILY_SALES_REPORT, params, types);
+				for (Map<String, Object> row : pList) {
+					csObject = new CustomerSales();
+					csObject.setProductType("Plant");
+					csObject.setProductName(row.get("Plant_Name").toString());
+					csObject.setRate(Double.valueOf(row.get("Rate").toString()));
+					csObject.setQuantity(Integer.valueOf(row.get("Quantity").toString()));
+					csObject.setStrSaleDate(row.get("Sale_Date").toString());
+					try {
+						csObject.setSaleDate(format.parse(row.get("Sale_Date").toString()));
+					} catch (Exception e) {
+						System.out.println("Exception occured: " + e.getMessage());
+					}
+					customerProducts.add(csObject);
+				}
+				pList.clear();
+			} else if (p.equalsIgnoreCase("Raw Material")) {
+				pList = jdbcTemplate.queryForList(GET_RM_DAILY_SALES_REPORT, params, types);
+				for (Map<String, Object> row : pList) {
+					csObject = new CustomerSales();
+					csObject.setProductType("Raw_Material");
+					csObject.setProductName(row.get("Raw_Material_Name").toString());
+					csObject.setRate(Double.valueOf(row.get("Rate").toString()));
+					csObject.setQuantity(Integer.valueOf(row.get("Quantity").toString()));
+					csObject.setStrSaleDate(row.get("Sale_Date").toString());
+					try {
+						csObject.setSaleDate(format.parse(row.get("Sale_Date").toString()));
+					} catch (Exception e) {
+						System.out.println("Exception occured: " + e.getMessage());
+					}
+					customerProducts.add(csObject);
+				}
+				pList.clear();
+			}
+		}
+		return customerProducts;
+	}
 }

@@ -115,7 +115,7 @@
 		<div class="row margin-bottom-inputs " style="margin-top:50px;">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
-				<table id="tblcustprod" class="table border border-dark">
+				<table id="tblcustprod" class="table" style="border: 1px solid #dee2e6;">
 					<thead class="">
 						<tr>
 							<th class="">Product Name</th>

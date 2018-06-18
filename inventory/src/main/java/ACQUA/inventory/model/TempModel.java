@@ -11,6 +11,9 @@ public class TempModel {
 	private Date lastModifiedDate;
 	private String tblName;
 	private String productID;
+	private String startDate;
+	private String endDate;
+	private String[] products;
 	
 	
 	public String getProductID() {
@@ -48,6 +51,24 @@ public class TempModel {
 	}
 	public void setLastModifiedDate(Date lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String[] getProducts() {
+		return products;
+	}
+	public void setProducts(String[] products) {
+		this.products = products;
 	}
 	
 	

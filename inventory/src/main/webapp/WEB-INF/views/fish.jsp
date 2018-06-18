@@ -122,7 +122,7 @@
 			</div>
 			<div class="modal" style="display: none">
 			    <div class="center">
-			        <img alt="" src="/images/giphy.gif" />
+			        <img alt="" src="/inventory/images/giphy.gif" />
 			    </div>
 			</div>
 			<div id="FishCatgForm" class="container" style="position: absolute;top:30%;margin-top:10px;">
