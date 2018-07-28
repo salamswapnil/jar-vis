@@ -33,6 +33,7 @@ import ACQUA.inventory.model.Plant;
 import ACQUA.inventory.model.RawMaterial;
 import ACQUA.inventory.model.TempModel;
 import ACQUA.inventory.model.User;
+import ACQUA.inventory.utils.UpdateMongo;
 import ACQUA.inventory.utils.Utils;
 	
 
@@ -333,8 +334,9 @@ public class MainController {
 	}
 	@RequestMapping(value="/saleproduct")
 	public @ResponseBody ModelAndView saleProduct(@ModelAttribute("salesobject") CustomerSales customersale, BindingResult result, ModelMap model){
+		int mongoServiceCallStatus;
 		System.out.println(customersale.getCustomerName()+" "+customersale.getAddress()+" "+customersale.getContact()+" "+customersale.getEmail()+" "+
-				customersale.getProductName()+" "+customersale.getQuantity()+" "+customersale.getRate()+" "+customersale.getSaleDate());
+				customersale.getProductId()+" "+customersale.getProductName()+" "+customersale.getQuantity()+" "+customersale.getRate()+" "+customersale.getSaleDate());
 		boolean isNewCustomer=false;
 		if(customersale.getCustomerID()==null || customersale.getCustomerID().equals("")){
 			customersale.setCustomerID(Utils.generateID());
@@ -346,6 +348,10 @@ public class MainController {
 		ModelAndView view = new ModelAndView("sales");
 		if(salesDAO.insertSaleRecord(customersale,isNewCustomer) > 0){
 			view.addObject("msg", "Record added Successfully...!!");
+			UpdateMongo updateMongo = new UpdateMongo();
+			mongoServiceCallStatus=updateMongo.updateSales(customersale);
+			System.out.println("Status code: "+mongoServiceCallStatus);
+			
 		}
 		else{
 			view.addObject("msg", "Error occured while inserting a record...!!");

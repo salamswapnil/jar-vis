@@ -399,6 +399,7 @@ function getProductQuantity(){
 	var jsonparam={};
 	jsonparam['tblName']=$('#ddlProductType option:selected').val();
 	jsonparam['productID']=$('#ddlProductName option:selected').val();
+	$("#hiddenProdName").val($('#ddlProductName option:selected').text());
 	$.ajax({
 		url : '/inventory/getCurrentQuantity',
 		type : 'POST',

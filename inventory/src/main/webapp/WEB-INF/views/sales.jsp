@@ -110,9 +110,10 @@
 						<div class="row margin-bottom-inputs">
 							<div class="col-md-4">Product Name</div>
 							<div class="col-md-8">
-								<form:select path="productName" class="form-control" id="ddlProductName" required="required">
+								<form:select path="productId" class="form-control" id="ddlProductName" required="required">
 									
 								</form:select>
+								<form:hidden path="productName" id="hiddenProdName"/>
 							</div>
 						</div>
 						<div class="row margin-bottom-inputs">

@@ -97,7 +97,7 @@ public class SalesDAOImpl implements SalesDAO {
 				customerSales.getCustomerID()};
 		
 		int[] salestypes = new int[]{Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.DOUBLE,Types.INTEGER,Types.DATE,Types.DATE,Types.DATE};
-		Object[] salesparams = new Object[]{customerSales.getSalesID(),customerSales.getCustomerID(),customerSales.getProductName(),customerSales.getRate(),customerSales.getQuantity(),
+		Object[] salesparams = new Object[]{customerSales.getSalesID(),customerSales.getCustomerID(),customerSales.getProductId(),customerSales.getRate(),customerSales.getQuantity(),
 				customerSales.getSaleDate(),customerSales.getDateAdded(),customerSales.getLastModifiedDate()};
 		
 		int n=0;
@@ -117,28 +117,28 @@ public class SalesDAOImpl implements SalesDAO {
 			}
 			if(n > 0){
 				if(customerSales.getProductType().equalsIgnoreCase("Fish")){
-					currQuantity=fishDAO.getQuantityByID(customerSales.getProductName());
+					currQuantity=fishDAO.getQuantityByID(customerSales.getProductId());
 					currQuantity=currQuantity-customerSales.getQuantity();
-					n=fishDAO.updateFishStockByID(currQuantity,customerSales.getProductName());
+					n=fishDAO.updateFishStockByID(currQuantity,customerSales.getProductId());
 					System.out.println("quantity updated");
 				}
 				else if(customerSales.getProductType().equalsIgnoreCase("Bird")){
-					currQuantity=birdDAO.getQuantityByID(customerSales.getProductName());
+					currQuantity=birdDAO.getQuantityByID(customerSales.getProductId());
 					currQuantity=currQuantity-customerSales.getQuantity();
-					n=birdDAO.updateBirdStockByID(currQuantity,customerSales.getProductName());
+					n=birdDAO.updateBirdStockByID(currQuantity,customerSales.getProductId());
 					System.out.println("quantity updated");
 				}
 				else if(customerSales.getProductType().equalsIgnoreCase("Plant")){
-					currQuantity=plantDAO.getQuantityByID(customerSales.getProductName());
+					currQuantity=plantDAO.getQuantityByID(customerSales.getProductId());
 					currQuantity=currQuantity-customerSales.getQuantity();
-					n=plantDAO.updatePlantStockByID(currQuantity,customerSales.getProductName());
+					n=plantDAO.updatePlantStockByID(currQuantity,customerSales.getProductId());
 					System.out.println("quantity updated");
 				}
 				else if(customerSales.getProductType().equalsIgnoreCase("Raw Material")){
 					//System.out.println("Product ID"+customerSales.getProductName()+"Quantity :"+customerSales.getQuantity());
-					currQuantity=rmDAO.getQuantityById(customerSales.getProductName());
+					currQuantity=rmDAO.getQuantityById(customerSales.getProductId());
 					currQuantity=currQuantity-customerSales.getQuantity();
-					n=rmDAO.updateRMStockById(currQuantity, customerSales.getProductName());
+					n=rmDAO.updateRMStockById(currQuantity, customerSales.getProductId());
 					System.out.println("quantity updated");
 				}
 			}
