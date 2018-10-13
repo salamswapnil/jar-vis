@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 
@@ -71,6 +72,8 @@ public class MainController {
 	RawMaterial rawMaterial;
 	@Autowired
 	CustomerSales sales;
+	@Autowired
+	UpdateMongo updateMongo;
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ModelAndView doLogin(@ModelAttribute("loginForm")User user, BindingResult result, ModelMap model){
@@ -127,20 +130,21 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/addFishDetails",method=RequestMethod.POST)
-	public ModelAndView insertFishDetails(@ModelAttribute("frmFishDetails")Fish fish,BindingResult result,ModelMap model){
-		ModelAndView view = new ModelAndView("fish");
+	//public ModelAndView insertFishDetails(@ModelAttribute("frmFishDetails")Fish fish,BindingResult result,ModelMap model){
+	public String insertFishDetails(@ModelAttribute("frmFishDetails")Fish fish,BindingResult result,RedirectAttributes redir){
+		//ModelAndView view = new ModelAndView("redirect:fish");
 		fish.setFishRecordID(Utils.generateID());
 		fish.setDateAdded(new Date());
 		System.out.println(fish.getFishRecordID()+" "+fish.getQuantity()+" "+fish.getFishCategory()+" "+
 		fish.getRate()+" "+fish.getPurchaseDate()+" "+fish.getDateAdded()+" "+fish.getBatchNo());
 		if(fishDAO.addFishDetails(fish) > 0){
-			view.addObject("msg","Fish details added Successfully...!!!");
+			redir.addFlashAttribute("msg","Fish details added Successfully...!!!");
 		}
 		else{
-			view.addObject("msg","Error occured while adding fish details...!!!");
+			redir.addFlashAttribute("msg","Error occured while adding fish details...!!!");
 		}
-		view.addObject("fishStock",fishDAO.getFishStock());
-		return view;
+		//view.addObject("fishStock",fishDAO.getFishStock());
+		return "redirect:/fish";
 	}
 	
 	@RequestMapping(value="/addPlantNames")
@@ -157,18 +161,18 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/addPlantDetails")
-	public ModelAndView insertPlantDetails(@ModelAttribute("plantObj") Plant plant,BindingResult result, ModelMap model){
-		ModelAndView view = new ModelAndView("plant");
+	public String insertPlantDetails(@ModelAttribute("plantObj") Plant plant,BindingResult result, RedirectAttributes redir){
+		//ModelAndView view = new ModelAndView("plant");
 		plant.setPlantRecordID(Utils.generateID());
 		plant.setDateAdded(new Date());
 		if(plantDAO.addPlantDetails(plant)>0){
-			view.addObject("msg", "Plant details added Successfully...!!");
+			redir.addFlashAttribute("msg", "Plant details added Successfully...!!");
 		}
 		else{
-			view.addObject("msg","Error occured while adding Plant details...!!!");
+			redir.addFlashAttribute("msg","Error occured while adding Plant details...!!!");
 		}
-		view.addObject("plantStock",plantDAO.getPlantStock());
-		return view;
+		//view.addObject("plantStock",plantDAO.getPlantStock());
+		return "redirect:/plant";
 	}
 	
 	@RequestMapping(value="/getAllPlantNames")
@@ -204,18 +208,18 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/addBirdDetails")
-	public ModelAndView addBirdDetails(@ModelAttribute("birdObject") Bird bird, BindingResult result, ModelMap model){
-		ModelAndView view = new ModelAndView("bird");
+	public String addBirdDetails(@ModelAttribute("birdObject") Bird bird, BindingResult result, RedirectAttributes redir){
+		//ModelAndView view = new ModelAndView("bird");
 		bird.setBirdRecordID(Utils.generateID());
 		bird.setDateAdded(new Date());
 		if(birdDAO.addBirdDetails(bird)>0){
-			view.addObject("msg", "Bird details added Successfully...!!");
+			redir.addFlashAttribute("msg", "Bird details added Successfully...!!");
 		}
 		else{
-			view.addObject("msg","Error occured while adding Bird details...!!!");
+			redir.addFlashAttribute("msg","Error occured while adding Bird details...!!!");
 		}
-		view.addObject("birdStock",birdDAO.getBirdStock());
-		return view;
+		//view.addObject("birdStock",birdDAO.getBirdStock());
+		return "redirect:/bird";
 	}
 	
 	@RequestMapping(value="/addMaterial")
@@ -241,18 +245,18 @@ public class MainController {
 	} 
 	
 	@RequestMapping(value="/addRMDetails")
-	public ModelAndView addRawMaterialDetails(@ModelAttribute("rmObject") RawMaterial rawMaterial, BindingResult result, ModelMap model){
-		ModelAndView view = new ModelAndView("raw-material");
+	public String addRawMaterialDetails(@ModelAttribute("rmObject") RawMaterial rawMaterial, BindingResult result, RedirectAttributes redir){
+		//ModelAndView view = new ModelAndView("raw-material");
 		rawMaterial.setRecordID(Utils.generateID());
 		rawMaterial.setDateAdded(new Date());
 		if(rmDAO.addMaterialDetails(rawMaterial)>0){
-			view.addObject("msg", "Material details added Successfully...!!");
+			redir.addFlashAttribute("msg", "Material details added Successfully...!!");
 		}
 		else{
-			view.addObject("msg","Error occured while adding Material details...!!!");
+			redir.addFlashAttribute("msg","Error occured while adding Material details...!!!");
 		}
-		view.addObject("rmStock",rmDAO.getRMStock());
-		return view;
+		//view.addObject("rmStock",rmDAO.getRMStock());
+		return "redirect:/rawmaterial";
 	}
 	
 	@RequestMapping(value="/updateDetails")
@@ -333,8 +337,8 @@ public class MainController {
 		return responseJson;
 	}
 	@RequestMapping(value="/saleproduct")
-	public @ResponseBody ModelAndView saleProduct(@ModelAttribute("salesobject") CustomerSales customersale, BindingResult result, ModelMap model){
-		int mongoServiceCallStatus;
+	public String saleProduct(@ModelAttribute("salesobject") CustomerSales customersale, BindingResult result, RedirectAttributes rdir){
+		//int mongoServiceCallStatus;
 		System.out.println(customersale.getCustomerName()+" "+customersale.getAddress()+" "+customersale.getContact()+" "+customersale.getEmail()+" "+
 				customersale.getProductId()+" "+customersale.getProductName()+" "+customersale.getQuantity()+" "+customersale.getRate()+" "+customersale.getSaleDate());
 		boolean isNewCustomer=false;
@@ -345,18 +349,18 @@ public class MainController {
 		customersale.setSalesID(Utils.generateID());
 		customersale.setDateAdded(new Date());
 		customersale.setLastModifiedDate(new Date());
-		ModelAndView view = new ModelAndView("sales");
+		//ModelAndView view = new ModelAndView("sales");
 		if(salesDAO.insertSaleRecord(customersale,isNewCustomer) > 0){
-			view.addObject("msg", "Record added Successfully...!!");
-			UpdateMongo updateMongo = new UpdateMongo();
-			mongoServiceCallStatus=updateMongo.updateSales(customersale);
-			System.out.println("Status code: "+mongoServiceCallStatus);
+			rdir.addFlashAttribute("msg", "Record added Successfully...!!");
+			//UpdateMongo updateMongo = new UpdateMongo();
+			//mongoServiceCallStatus=updateMongo.updateSales(customersale);
+			//System.out.println("Status code: "+mongoServiceCallStatus);
 			
 		}
 		else{
-			view.addObject("msg", "Error occured while inserting a record...!!");
+			rdir.addFlashAttribute("msg", "Error occured while inserting a record...!!");
 		}
-		return view;
+		return "redirect:/sales";
 	}
 	
 	@RequestMapping(value="/generateBatchNo",produces="text/plain")

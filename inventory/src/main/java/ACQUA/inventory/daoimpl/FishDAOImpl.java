@@ -15,12 +15,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import ACQUA.inventory.dao.FishDAO;
 import ACQUA.inventory.model.Fish;
+import ACQUA.inventory.utils.UpdateMongo;
 import net.sf.cglib.asm.Type;
 
 public class FishDAOImpl implements FishDAO {
 	@Autowired
 	Fish fish;
 	
+	@Autowired
+	UpdateMongo updateMongo;
 	private final String ADD_FISH_CATEGORY="INSERT INTO fish_master(RecordId,Category,Total_Quantity,Date_Added) VALUES(?,?,?,?)";
 	//private final String COMMIT="commit";
 	private final String GET_ALL_FISH_CATEGORIES="SELECT * FROM fish_master ORDER BY Category";
@@ -60,11 +63,19 @@ public class FishDAOImpl implements FishDAO {
 		Object[] params = new Object[]{fish.getFishRecordID(),fish.getFishCategory(),fish.getBatchNo(),fish.getRate(),
 				fish.getQuantity(),fish.getPurchaseDate(),fish.getDateAdded()};
 		int n=jdbcTemplate.update(ADD_FISH_DETAILS,params,types);
+		int n1;
 		int quantity=0;
 		if(n>0){
 			quantity=getQuantityByID(fish.getFishCategory());
 			quantity=quantity+fish.getQuantity();
-			n=updateFishStockByID(quantity, fish.getFishCategory());
+			n1=updateFishStockByID(quantity, fish.getFishCategory());
+			/*New code for updating mogo DB*/
+			if(n1>0){
+				fish.setQuantity(quantity);
+				fish.setLastModifiedDate(new Date());
+				//updateMongo.updateFishStock(fish);
+			}
+			/************/
 		}
 		return n;
 	}

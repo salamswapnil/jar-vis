@@ -81,7 +81,6 @@ public class BirdDAOImpl implements BirdDAO {
 			n=updateBirdStockByID(quantity, bird.getBirdName());
 		}
 		return n;
-		
 	}
 	
 	@Override

@@ -601,4 +601,35 @@ function saleReportBetweenDates(){
 		}
 	});
 }
+function saleReportByDate(){
+	//console.log("saleReportByDate called");
+	var startdate = $("#startdate").val();
+	//var enddate = $("#enddate").val();
+	var products = $("#ddlProduct").val();
+	var jsonparams={};
+	jsonparams['startDate']=startdate;
+	//jsonparams['endDate']=enddate;
+	jsonparams['products']=products;
+	$.ajax({
+		url : "/inventory/dailyReport",
+		type : "POST",
+		data : JSON.stringify(jsonparams),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+		beforeSend : function(){
+			
+		},
+		success : function(data,textStatus,xhr){
+			//console.log(data);
+			$("#sdate").html(startdate);
+			//$("#edate").html(enddate);
+			$('#report-table').bootstrapTable('load',data);
+		},
+		error : function(xhr,textStatus,errorThrown){
+			console.log("Error occured: "+errorThrown);
+		},
+		complete : function(xhr,textStatus){
+		}
+	});
+}
 

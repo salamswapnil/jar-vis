@@ -43,11 +43,10 @@
 		<div class="row margin-bottom-inputs">
 			<div class="col-md-1"></div>
 			<div class="col-md-4">
-				<span class="font-weight-bold">From:</span>&nbsp;&nbsp;<span id="sdate"></span>
-				<span class="font-weight-bold">To:</span>&nbsp;&nbsp;<span id="edate"></span>
+				<span class="font-weight-bold">Report Date:</span>&nbsp;&nbsp;<span id="sdate"></span>
 			</div>
 			<div class="col-md-4">
-				<h5>Sales Report</h5>
+				<h5>Sales Report By Date</h5>
 			</div>
 		</div>
 		<div class="row margin-bottom-inputs">
@@ -96,7 +95,7 @@
 		
 		$("#form1").submit(function(event){
 			event.preventDefault();
-			saleReportBetweenDates();
+			saleReportByDate();
 		});
 	</script>
 </body>

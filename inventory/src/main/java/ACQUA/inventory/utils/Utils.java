@@ -2,6 +2,7 @@ package ACQUA.inventory.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -31,7 +32,12 @@ public class Utils {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
-	    LocalDateTime localdate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+	    //LocalDateTime localdate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		//LocalDateTime localdate=Instant.ofEpochMilli(currentDate.getTime()).atZone(zone).toLocalDateTime();
+		
+		Instant instant = Instant.ofEpochMilli(currentDate.getTime());
+		LocalDateTime localdate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+		
 		String [] array=name.split(" ");
 		if(array.length==1){
 			try{

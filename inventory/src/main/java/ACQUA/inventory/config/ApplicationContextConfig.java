@@ -29,6 +29,7 @@ import ACQUA.inventory.model.Fish;
 import ACQUA.inventory.model.Plant;
 import ACQUA.inventory.model.RawMaterial;
 import ACQUA.inventory.model.User;
+import ACQUA.inventory.utils.UpdateMongo;
 
 @Configuration
 @ComponentScan(value="ACQUA.inventory.*")
@@ -118,5 +119,11 @@ public class ApplicationContextConfig {
 	public CustomerSales getCustomerSales(){
 		System.out.println("sale obj created **************");
 		return new CustomerSales();
+	}
+	
+	@Bean(name="updateMongo")
+	public UpdateMongo getUpdateMongo(){
+		System.out.println("updateMongo obj created **************");
+		return new UpdateMongo();
 	}
 }

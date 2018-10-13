@@ -56,7 +56,7 @@
 				<span class="font-weight-bold">To:</span>&nbsp;&nbsp;<span id="edate"></span>
 			</div>
 			<div class="col-md-4">
-				<h5>Sales Report</h5>
+				<h5>Sales Report Between Dates</h5>
 			</div>
 		</div>
 		<div class="row margin-bottom-inputs">
